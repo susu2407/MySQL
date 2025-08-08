@@ -3,7 +3,16 @@
     이름 : 이수연
     내용 : 연습문제 실습
 */
--- 데이퍼베이스 선택
+-- 실습 2-1
+drop table user1;
+create table user1 (
+	uid varchar(10),
+    name varchar(10),
+    hp char(13),
+    age int
+);
+
+-- 데이터베이스 선택
 use studydb;
 
 -- 실습 2-8

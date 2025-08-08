@@ -181,5 +181,47 @@ SELECT DATE_FORMAT(CURDATE(), '%Y-%m-01'); -- 2025-08-01
 
 SELECT CURTIME(); -- 12:50:31 -- 오늘 시간만
 
+INSERT INTO Member VALUES ('a112', '유관순', '010-1234-1012', '대리', 107, NOW());
+
+-- 실습 4-7. 2018년 1월 매출의 총합을 구하시오.
+select sum(sale) as '2018년 1월 총합' from sales where year=2018 and month=1;
+
+-- 실습 4-8. 2019년 2월에 5만원 이상 매출에 대한 총합과 평균을 구하시오.
+select sum(sale) as '2019년 2월 총합', 
+		avg(sale) as '2019년 2월 평균' 
+			from sales 
+            where sale >=50000 
+            and year=2019 
+            and month=2;
+
+-- 실습 4-9. 2020년 전체 매출 가운데 최저, 최고 매출을 구하시오.
+select min(sale) as 최저매출, max(sale) as 최고매출 from sales where year=2020;
+
+SELECT * FROM sales
+	WHERE year = 2020
+		AND (sale = (SELECT MIN(sale) FROM sales WHERE year = 2020)
+		OR sale = (SELECT MAX(sale) FROM sales WHERE year = 2020));
 
 
+-- 실습 4-10 그룹별로 조회
+select uid from sales group by uid;
+select year from sales group by year;
+select uid, year from sales group by uid, year;
+select uid, count(*) as 건수 from sales group by uid;
+select uid, sum(sale) as 합계 from sales group by uid;
+select uid, avg(sale) as 평균 from sales group by uid;
+
+select uid, year, sum(sale) as 합계 from sales group by uid, year;
+
+select uid, year, sum(sale) as 합계 from sales group by uid, year order by year asc, 합계 desc;
+
+select uid, year, sum(sale) as 합계 from sales 
+	where sale >= 50000 
+	group by uid, year 
+    order by year asc, 합계 desc;
+
+
+-- 실습 4-11 그룹화에 검색조건 설정
+select uid, sum(sale) as 합계 from sales
+	group by uid
+    having 합계 >= 200000;
